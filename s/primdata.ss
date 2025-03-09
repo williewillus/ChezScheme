@@ -1429,6 +1429,7 @@
   (fxvector [sig [(fixnum ...) -> (fxvector)]] [flags alloc cp02 safeongoodargs])
   (fxvector->list [sig [(fxvector) -> (list)]] [flags alloc safeongoodargs])
   (fxvector-copy [sig [(fxvector) -> (fxvector)]] [flags alloc safeongoodargs])
+  (fxvector-copy! [sig [(fxvector sub-length fxvector sub-length sub-length) -> (void)]] [flags true])
   (fxvector-fill! [sig [(fxvector fixnum) -> (void)]] [flags true])
   (fxvector-length [sig [(fxvector) -> (length)]] [flags pure mifoldable discard true safeongoodargs])
   (fxvector-ref [sig [(nonempty-fxvector sub-index) -> (fixnum)]] [flags mifoldable discard cp02])

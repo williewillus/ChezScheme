@@ -210,6 +210,30 @@
               (constant fxvector-data-disp) n))
         fxv2))))
 
+(set-who!
+ fxvector-copy!
+ (lambda (fxv1 i1 fxv2 i2 k)
+   (unless (fxvector? fxv1)
+     ($oops who "~s is not an fxvector" fxv1))
+   (unless (fxvector? fxv2)
+     ($oops who "~s is not an fxvector" fxv2))
+   (let ([n1 (fxvector-length fxv1)] [n2 (fxvector-length fxv2)])
+     (unless (and (fixnum? i1) (fx>= i1 0))
+       ($oops who "invalid start value ~s" i1))
+     (unless (and (fixnum? i2) (fx>= i2 0))
+       ($oops who "invalid start value ~s" i2))
+     (unless (and (fixnum? k) (fx>= k 0))
+       ($oops who "invalid count ~s" k))
+     (unless (fx<= k (fx- n1 i1)) ; avoid overflow
+       ($oops who "index ~s + count ~s is beyond the end of ~s" i1 k fxv1))
+     (unless (fx<= k (fx- n2 i2)) ; avoid overflow
+       ($oops who "index ~s + count ~s is beyond the end of ~s" i2 k fxv2))
+     ($ptr-copy! fxv1 (fx+ (constant fxvector-data-disp)
+                           (fx* (constant ptr-bytes) i1))
+                 fxv2 (fx+ (constant fxvector-data-disp)
+                           (fx* (constant ptr-bytes) i2))
+                 k))))
+
 (set! flvector->list
   (lambda (v)
     (unless (flvector? v)
